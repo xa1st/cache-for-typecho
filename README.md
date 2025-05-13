@@ -40,7 +40,7 @@ $cache = Typecho_Cache::getCache();
 $cache->has('cache_key');
 ```
 
-读取:
+读:
 ```php
 $cache = Typecho_Cache::getCache();
 $cache->get('cache_key');
