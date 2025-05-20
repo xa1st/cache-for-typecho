@@ -1,4 +1,4 @@
-# Cache For Typecho
+# Cache PLUS For Typecho
 
 为TYPECHO添加缓存的类，用于手动需要缓存的一切位置
 
@@ -7,9 +7,12 @@
 - TpCache: https://github.com/phpgao/TpCache
 - TpCache魔改版: https://github.com/gogobody/TpCache
 
+## 版本号
+  2.0.1
+
 ## 功能特点
 
-- 支持Redis / 文件缓存
+- 支持Redis / 低版本Valkey / 文件缓存 
 - 支持原生写法，支持自定义配置
 
 ## 安装方法
@@ -18,9 +21,9 @@
 
 ## 配置说明
 
-参考config.inc.php-simple文件中最底下部分的配置说明，
+### 1. 手动拆解配置
 
-```
+```php
 $cache = new Typecho_Cache('Redis', [
   'host' => 'redis服务器地址',  // 服务地址，IP或者域名皆可，如果支持TLS，请填tls://redis服务器地址
   'password' => '', // 密钥，没有请留空，如果是自装redis，强烈建议设置并启用
@@ -31,6 +34,40 @@ $cache = new Typecho_Cache('Redis', [
 ]);
 Typecho_Cache::setCache($cache);
 ```
+### 2. 用URI配置
+
+- Redis(用原生的phpredis连接，需要php安装phpredis依赖):
+
+  PS: 支持的协议名redis、tls
+
+  ```php
+  $cache = new Typecho_Cache('Redis', [
+    'uri' => 'redis://username:password@host:port/db',
+    'timeout' => 0,
+    'prefix' => 'typecho_'
+  ]);
+  ```
+
+- Valkey/Redis(用predis连接，需要提前安装predis依赖):
+
+  PS: 支持的协议名redis、tls，rediss
+
+  ```php
+  $cache = new Typecho_Cache('Valkey', [
+    'uri' => 'rediss://username:password@host:port/db',
+    'timeout' => 0,
+    'prefix' => 'typecho_'
+  ]);
+  ```
+
+- 文件缓存(不支持TLS):
+
+  PS: 文件缓存会创建`/usr/cache目录，需要这里的写权限`
+
+  ```php
+  $cache = new Typecho_Cache('Local', [
+    'path' => '/usr/cache' // 可选，可以直接留空
+  ]);
 
 ## 使用说明
 
@@ -61,6 +98,11 @@ $cache->delete('cache_key');
 就这么多功能啦...
 
 ## 更新日志
+
+### 2.0.1
+  
+  - 引入predis/predis依赖，需要在根目录执行 `composer install`
+  - 支持高版本的Valkey缓存，支持TLS，rediss
 
 ### 1.0.1
 

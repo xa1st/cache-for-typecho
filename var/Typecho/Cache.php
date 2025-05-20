@@ -60,7 +60,7 @@ class Cache
      */
     public function __construct($adapterName = 'Redis', array $config = []) {
         // 判定缓存配置是否存在
-        if (!isset($config['host']) || !isset($config['port']) || !isset($config['password'])) throw new CacheException(_t('请填写缓存配置'));
+        if (empty($config)) throw new CacheException(_t('请填写缓存配置'));
         // 全局配置
         $this->config = $config;
         // 缓存适配器名称
@@ -69,6 +69,7 @@ class Cache
         if ($this->adapterName == 'Redis' && !extension_loaded('redis')) throw new CacheException(_t('当前环境不支持REDIS扩展，无法使用Redis缓存'));
         // 缓存配置
         $adapterClass = '\Typecho\Cache\\' . str_replace('_', '\\', $adapterName);
+
         // 适配器不存在则直接抛出错误 
         if (!class_exists($adapterClass)) throw new CacheException(_t('缓存适配器不存在'));
         // 缓存前端
