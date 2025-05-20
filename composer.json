@@ -1,0 +1,8 @@
+{
+    "require": {
+        "predis/predis": "^3.0"
+    },
+    "config": {
+        "vendor-dir": "ext"
+    }
+}
