@@ -8,7 +8,7 @@
 - TpCache魔改版: https://github.com/gogobody/TpCache
 
 ## 版本号
-  2.0.1
+  2.0.0
 
 ## 功能特点
 
